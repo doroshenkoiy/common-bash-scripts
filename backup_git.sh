@@ -1,14 +1,26 @@
 #!/bin/sh
-# Backup server config into GIT. 
+# Backup server config into GIT.
+#
+# create dir /backup/git-backupconf:
+#	$ git init /backup/git-backupconf
+# Add executable bit
+#	$ chmod +x backup_git.sh
+# Add /etc/crontab
+# 	0 0    * * *   root    /srv/scripts/backup_git.sh
+# Add git config.
+#	$ git config --global user.name `uname -n`
+#	$ git config --global user.email "none@none.com"
+
 # --------------------------------------------------------------------------------------------------------
 git_path='/backup/git-backupconf'
-rsync_options='-rRtvh --no-specials --no-devices --ignore-missing-args --ignore-errors --copy-links --delete --delete-after --force --stats --progress'
-rsync_exclude=" --exclude=/etc/alternatives --exclude=*.gz --exclude=*.pem --exclude=*.dat"
+rsync_options='-rRtvh --delete --executability --no-specials --no-devices --ignore-missing-args --ignore-errors --links --delete --delete-after --force --stats --progress'
+rsync_exclude=" --exclude=*.gz --exclude=*.pem --exclude=*.dat"
 rsync_opt=${rsync_options}${rsync_exclude}
 inst_progs='installed_programs.log'
 services_log='systemd.log'
 about_linux='linux.info'
 storage_info='storage.info'
+network_info='network.info'
 
 # perl_modules_log='perl_modules.log'
 # perl_modules_list='/srv/scripts/list_perl_modules.pl'
@@ -38,12 +50,16 @@ sort --output=${git_path}/${services_log}  < ${git_path}/${services_log}
 # Linux info(release, kernel)
 lsb_release -d > ${git_path}/${about_linux}
 uname -a >> ${git_path}/${about_linux}
+echo "Virtualization: "`systemd-detect-virt` >> ${git_path}/${about_linux}
 
 # Storage info
 fdisk -l > ${git_path}/${storage_info}
 pvdisplay --maps >> ${git_path}/${storage_info}
 vgs >> ${git_path}/${storage_info}
 lvs >> ${git_path}/${storage_info}
+
+# Network info
+ip -d a > ${git_path}/${network_info}
 
 # версии модулей Perl
 # ${perl_modules_list} | sort > ${git_path}/${perl_modules_log}
@@ -52,10 +68,10 @@ lvs >> ${git_path}/${storage_info}
 # --------------------------------------------------------------------------------------------------------
 # ----    Git commit  ----
 
-cd $git_path
+cd ${git_path}
 git add --all *
-git commit -m 'Automatic backup'
-git push origin master
+git commit -m 'Auto backup'
+# git push origin master
 
 # --------------------------------------------------------------------------------------------------------.
 
