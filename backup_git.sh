@@ -55,8 +55,10 @@ echo "Virtualization: "`systemd-detect-virt` >> ${git_path}/${about_linux}
 # Storage info
 fdisk -l > ${git_path}/${storage_info}
 pvdisplay --maps >> ${git_path}/${storage_info}
-vgs >> ${git_path}/${storage_info}
-lvs >> ${git_path}/${storage_info}
+echo >> ${git_path}/${storage_info}
+vgs -v >> ${git_path}/${storage_info}
+echo >> ${git_path}/${storage_info}
+lvs -v >> ${git_path}/${storage_info}
 
 # Network info
 ip -d a > ${git_path}/${network_info}
