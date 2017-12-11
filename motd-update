@@ -2,13 +2,12 @@
 # Place file in /etc/update-motd.d
 
 echo
-echo -e '\033[30;47m\n' "----------<{   `date +"%A, %d %B.  %Y.%m.%d %H:%M:%S %:z"`   }>----------" '\033[0m'
+#echo '\033[30;47m\n' "----------<{   `date +"%A, %d %B.  %Y.%m.%d %H:%M:%S %:z"`   }>----------" '\033[0m'
+echo '\033[30;47m\n' `date +"%A, %d %B.  %Y.%m.%d %H:%M:%S %:z"` '\033[0m'
 echo
 echo "IP:        `ip -4 a | egrep "inet\ "| grep -v "127.0.0.1" | sed 's/^.*inet.//; s/\/.*//'`"
 echo "Hostname:  `uname -n`"
 echo
-
 echo "OS:        `lsb_release -d | sed s/^.*:.//`"
 echo "Kernel:    `uname -srvm`"
-
-echo 
+echo
