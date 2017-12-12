@@ -14,7 +14,7 @@
 # --------------------------------------------------------------------------------------------------------
 git_path='/backup/git-backupconf'
 rsync_options='-rRtvh --delete --executability --no-specials --no-devices --ignore-missing-args --ignore-errors --links --delete --delete-after --force --stats --progress'
-rsync_exclude=" --exclude=*.gz --exclude=*.pem --exclude=*.dat"
+rsync_exclude=" --exclude=*.gz --exclude=*.dat"
 rsync_opt=${rsync_options}${rsync_exclude}
 inst_progs='installed_programs.log'
 services_log='systemd.log'
