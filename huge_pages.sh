@@ -1,6 +1,8 @@
 #!/bin/sh
 # How many memory do you need for HugePages ?  in Mb.
-need_mem_mb="8*1024+508"
+# For Mysql: innodb_buffer_pool + all other buffers. + `grep "Failed to allocate" error.log`
+need_mem_mb="12*1024+508+256"
+
 # linux usergroup, which can allocate HugePages
 usergroup='mysql'
 
