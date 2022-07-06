@@ -22,6 +22,12 @@ about_linux='linux.info'
 storage_info='storage.info'
 network_info='network.info'
 
+patroni_info='patroni.info'
+postgresql_info='postgresql.info'
+postgresql_sql='/srv/scripts/postgresql_info.sql'
+PGPASSWORD=superpassword
+pguser='pg_user'
+
 # perl_modules_log='perl_modules.log'
 # perl_modules_list='/srv/scripts/list_perl_modules.pl'
 
@@ -65,6 +71,23 @@ ip -d a > ${git_path}/${network_info}
 
 # версии модулей Perl
 # ${perl_modules_list} | sort > ${git_path}/${perl_modules_log}
+
+
+# Patroni info
+patronictl version > ${git_path}/${patroni_info}
+echo " " >> ${git_path}/${patroni_info}
+patronictl show-config >> ${git_path}/${patroni_info}
+echo " " >> ${git_path}/${patroni_info}
+patronictl list >> ${git_path}/${patroni_info}
+
+# PostgreSQL info
+set -x
+export PGPASSWORD
+
+psql --version > ${git_path}/${postgresql_info}
+psql --username=postgres -w --host=127.0.0.1 --port=5432 --file=$postgresql_sql  >> ${git_path}/${postgresql_info}
+
+unset PGPASSWORD
 
 
 # --------------------------------------------------------------------------------------------------------
