@@ -22,6 +22,7 @@ about_linux='linux.info'
 storage_info='storage.info'
 network_info='network.info'
 
+etcd_info='etcd.info'
 patroni_info='patroni.info'
 postgresql_info='postgresql.info'
 postgresql_sql='/srv/scripts/postgresql_info.sql'
@@ -71,6 +72,11 @@ ip -d a > ${git_path}/${network_info}
 
 # версии модулей Perl
 # ${perl_modules_list} | sort > ${git_path}/${perl_modules_log}
+
+# Etcd info
+etcdctl --version > ${git_path}/${etcd_info}
+echo " " >> ${git_path}/${etcd_info}
+etcdctl cluster-health >> ${git_path}/${etcd_info}
 
 
 # Patroni info
