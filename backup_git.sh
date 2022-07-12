@@ -37,6 +37,11 @@ pguser='pg_user'
 rsync ${rsync_opt} /etc/ ${git_path}
 rsync ${rsync_opt} /usr/local/etc/ ${git_path}
 rsync ${rsync_opt} /srv/scripts/ ${git_path}
+rsync ${rsync_opt} /usr/lib/systemd/system ${git_path}
+rsync ${rsync_opt} /usr/lib/systemd/system-preset ${git_path}
+rsync ${rsync_opt} /usr/lib/systemd/user ${git_path}
+rsync ${rsync_opt} /usr/lib/systemd/user-preset ${git_path}
+
 
 # installed applications
 dpkg-query --list > ${git_path}/${inst_progs}
